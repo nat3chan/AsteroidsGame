@@ -1,75 +1,48 @@
-Spaceship bob = new Spaceship();
-Star [] space = new Star[250];
-ArrayList <Asteroids> list = new ArrayList <Asteroids>();
-ArrayList <Bullet> list2 = new ArrayList <Bullet>();
-public int b = 0;
-public void setup() 
-{
-  size(1000,1000);
-  for (int i = 0; i < space.length; i++){
-  space[i] = new Star();
-  }
-  for (int i = 0; i < 25; i++){
-  list.add(new Asteroids());
-  }
-}
-public void draw() 
-{
-  fill(0,0,0,75);
-  rect(0,0,1000,1000);
-  fill(255);
-  for (int i = 0; i < space.length; i++){
-  space[i].show();
-  }
-  for(int i = 0; i < list.size(); i++){
-    list.get(i).move();
-    list.get(i).show();
-    if(dist((float)bob.getX(), (float)bob.getY(), (float)list.get(i).getX(), (float)list.get(i).getY()) < 30){
-      list.remove(i);
+class Asteroids extends Floater  
+{   
+    public Asteroids(){
+      corners = 11;
+      xCorners = new int[corners];
+      yCorners = new int[corners];
+      xCorners[0] = -4;
+      yCorners[0] = -3;
+      xCorners[1] = -4;
+      yCorners[1] = -8;
+      xCorners[2] = 8;
+      yCorners[2] = -7;
+      xCorners[3] = 10;
+      yCorners[3] = 3;
+      xCorners[4] = 5;
+      yCorners[4] = 3;
+      xCorners[5] = 7;
+      yCorners[5] = 5;
+      xCorners[6] = 8;
+      yCorners[6] = 6;
+      xCorners[7] = 3;
+      yCorners[7] = 8;
+      xCorners[8] = -9;
+      yCorners[8] = 4;
+      xCorners[9] = -9;
+      yCorners[9] = -3;
+      xCorners[10] = -7;
+      yCorners[10] = -7;
+      myColor = 200;
+      myCenterX = (int)(Math.random()*1000);
+      myCenterY = (int)(Math.random()*1000);
+      myXspeed = (int)(Math.random()*4)-2;
+      myYspeed = (int)(Math.random()*4)-2;
+      myPointDirection = (int)(Math.random()*360);
     }
-  }
-  bob.show();
-  bob.move();
-  
-for (int i = 0; i < list2.size(); i++) {
-    list2.get(i).show();
-    list2.get(i).move();
-}
-for (int i = 0; i < list2.size(); i++) {
-  for (int o = 0; o < list.size(); o++) {
-    if(dist((float)list2.get(i).getX(), (float)list2.get(i).getY(), (float)list.get(o).getX(), (float)list.get(o).getY()) < 10){
-      list2.remove(i);
-      list.remove(o);
-    }
-  }
-}
-}
-public void keyPressed(){
-  if(key == 'd'){
-    bob.turn(10.0);
-  }
-  if(key == 'a'){
-    bob.turn(-10);
-  }
-  if(key == 'w'){
-    bob.accelerate(0.1);
-    while(bob.getXspeed() > 5){
-    bob.setXspeed(4.8);
-    }
-    while(bob.getXspeed() < -5){
-    bob.setXspeed(-4.8);
-    }
-    while(bob.getYspeed() > 5){
-    bob.setYspeed(4.8);
-    }
-    while(bob.getYspeed() < -5){
-    bob.setYspeed(-4.8);
-    }
-  }
-  if(key == 'e'){
-    bob.hyperspace();
-  }
-  if(key == ' '){
-    list2.add(new Bullet(bob));
-  }
+      public void setXspeed(double a){myXspeed = a;}
+      public double getXspeed(){return myXspeed;}
+      public void setYspeed(double a){myYspeed = a;}
+      public double getYspeed(){return myYspeed;}
+      public void setX(double a){myCenterX = a;}
+      public double getX(){return myCenterX;}
+      public void setY(double a){myCenterY = a;}
+      public double getY(){return myCenterY;}
+      public void move(){
+        turn(-5);
+        super.move();
+      }
 }
