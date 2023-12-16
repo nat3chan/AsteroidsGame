@@ -1,40 +1,75 @@
-class Asteroids extends Floater  
-{   
-    public Asteroids(){
-      corners = 8;
-      xCorners = new int[corners];
-      yCorners = new int[corners];
-      xCorners[0] = -8;
-      yCorners[0] = -8;
-      xCorners[1] = -2;
-      yCorners[1] = -8;
-      xCorners[2] = 4;
-      yCorners[2] = -4;
-      xCorners[3] = 4;
-      yCorners[3] = 5;
-      xCorners[4] = 5;
-      yCorners[4] = 7;
-      xCorners[5] = 3;
-      yCorners[5] = 8;
-      xCorners[6] = -3;
-      yCorners[6] = 10;
-      xCorners[7] = -8;
-      yCorners[7] = 6;
-      myColor = 200;
-      myCenterX = (int)(Math.random()*1000);
-      myCenterY = (int)(Math.random()*1000);
-      myXspeed = (int)(Math.random()*2)+.3;
-      myYspeed = (int)(Math.random()*2)+.3;
-      myPointDirection = (int)(Math.random()*360);
+Spaceship bob = new Spaceship();
+Star [] space = new Star[250];
+ArrayList <Asteroids> list = new ArrayList <Asteroids>();
+ArrayList <Bullet> list2 = new ArrayList <Bullet>();
+public int b = 0;
+public void setup() 
+{
+  size(1000,1000);
+  for (int i = 0; i < space.length; i++){
+  space[i] = new Star();
+  }
+  for (int i = 0; i < 25; i++){
+  list.add(new Asteroids());
+  }
+}
+public void draw() 
+{
+  fill(0,0,0,75);
+  rect(0,0,1000,1000);
+  fill(255);
+  for (int i = 0; i < space.length; i++){
+  space[i].show();
+  }
+  for(int i = 0; i < list.size(); i++){
+    list.get(i).move();
+    list.get(i).show();
+    if(dist((float)bob.getX(), (float)bob.getY(), (float)list.get(i).getX(), (float)list.get(i).getY()) < 30){
+      list.remove(i);
     }
-      public void setXspeed(double a){myXspeed = a;}
-      public double getXspeed(){return myXspeed;}
-      public void setYspeed(double a){myYspeed = a;}
-      public double getYspeed(){return myYspeed;}
-      public double getY(){return myCenterY;}
-      public double getX(){return myCenterX;}
-      public void move(){
-        turn(-5);
-        super.move();
-      }
+  }
+  bob.show();
+  bob.move();
+  
+for (int i = 0; i < list2.size(); i++) {
+    list2.get(i).show();
+    list2.get(i).move();
+}
+for (int i = 0; i < list2.size(); i++) {
+  for (int o = 0; o < list.size(); o++) {
+    if(dist((float)list2.get(i).getX(), (float)list2.get(i).getY(), (float)list.get(o).getX(), (float)list.get(o).getY()) < 10){
+      list2.remove(i);
+      list.remove(o);
+    }
+  }
+}
+}
+public void keyPressed(){
+  if(key == 'd'){
+    bob.turn(10.0);
+  }
+  if(key == 'a'){
+    bob.turn(-10);
+  }
+  if(key == 'w'){
+    bob.accelerate(0.1);
+    while(bob.getXspeed() > 5){
+    bob.setXspeed(4.8);
+    }
+    while(bob.getXspeed() < -5){
+    bob.setXspeed(-4.8);
+    }
+    while(bob.getYspeed() > 5){
+    bob.setYspeed(4.8);
+    }
+    while(bob.getYspeed() < -5){
+    bob.setYspeed(-4.8);
+    }
+  }
+  if(key == 'e'){
+    bob.hyperspace();
+  }
+  if(key == ' '){
+    list2.add(new Bullet(bob));
+  }
 }
